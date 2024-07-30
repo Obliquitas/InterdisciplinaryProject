@@ -6,6 +6,9 @@
 .RData
 .RDataTmp
 
+# Data files too large to be included in the repository
+*.rds
+
 # User-specific files
 .Ruserdata
 
