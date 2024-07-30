@@ -8,6 +8,8 @@
 
 # Data files too large to be included in the repository
 *.rds
+*.txt
+*.tsv
 
 # User-specific files
 .Ruserdata
