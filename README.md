@@ -1,1 +1,1 @@
-# InterdisciplinaryProject
+Put the path to the raw data in the config file and both emotion lexicas in the data folder. 
