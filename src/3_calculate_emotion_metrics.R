@@ -11,9 +11,9 @@ ztc_smoothed_annotations <- readRDS("data/ztc_smoothed_annotations.rds")
 
 
 mean_value_per_subject <- function(data) {
-  pair <- data %>% select(bundle) %>% distinct()
-  subject_a <- substr(pair[[1]][1], 1, 2)
-  subject_b <- substr(pair[[1]][1], 3, 4)
+  subjects <- data %>% select(subject) %>% distinct() %>% unlist()
+  subject_a <- subjects[1]
+  subject_b <- subjects[2]
   prediction_valence_a <- data %>% filter(subject == subject_a) %>% select(smoothed_valence) %>% unlist()
   prediction_valence_b <- data %>% filter(subject == subject_b) %>% select(smoothed_valence) %>% unlist()
   mean_valence_a <- mean(discard(prediction_valence_a, is.na))
@@ -44,31 +44,31 @@ ztc_mean_scores <- ztc_smoothed_annotations %>%
 # Calculate trajectory of emotion metrics for each grouping of session, task and subject
 
 trajectory_per_subject <- function(data){
-  pair <- data %>% select(bundle) %>% distinct()
-  subject_a <- substr(pair[[1]][1], 1, 2)
-  subject_b <- substr(pair[[1]][1], 3, 4)
+  subjects <- data %>% select(subject) %>% distinct() %>% unlist()
+  subject_a <- subjects[1]
+  subject_b <- subjects[2]
 
-  start_a <- data %>% filter(subject == subject_a) %>% select(start) %>% unlist()
-  start_b <- data %>% filter(subject == subject_b) %>% select(start) %>% unlist()
+  start <- data %>% filter(subject == subject_a) %>% select(start) %>% unlist()
 
   prediction_valence_a <- data %>% filter(subject == subject_a) %>% select(smoothed_valence) %>% unlist()
   prediction_valence_b <- data %>% filter(subject == subject_b) %>% select(smoothed_valence) %>% unlist()
-  trajectory_valence_a <- coef(lm(prediction_valence_a ~ start_a))[2]
-  trajectory_valence_b <- coef(lm(prediction_valence_b ~ start_b))[2]
+
+  trajectory_valence <- coef(lm(prediction_valence_a-prediction_valence_b ~ start))[2]
 
   prediction_arousal_a <- data %>% filter(subject == subject_a) %>% select(smoothed_arousal) %>% unlist()
   prediction_arousal_b <- data %>% filter(subject == subject_b) %>% select(smoothed_arousal) %>% unlist()
-  trajectory_arousal_a <- coef(lm(prediction_arousal_a ~ start_a))[2]
-  trajectory_arousal_b <- coef(lm(prediction_arousal_b ~ start_b))[2]
+
+  trajectory_arousal <- coef(lm(prediction_arousal_a-prediction_arousal_b ~ start))[2]
+
 
   prediction_dominance_a <- data %>% filter(subject == subject_a) %>% select(smoothed_dominance) %>% unlist()
   prediction_dominance_b <- data %>% filter(subject == subject_b) %>% select(smoothed_dominance) %>% unlist()
-  trajectory_dominance_a <- coef(lm(prediction_dominance_a ~ start_a))[2]
-  trajectory_dominance_b <- coef(lm(prediction_dominance_b ~ start_b))[2]
 
-  return(tibble(valence_alignment = trajectory_valence_a - trajectory_valence_b,
-                arousal_alignment = trajectory_arousal_a - trajectory_arousal_b,
-                dominance_alignment = trajectory_dominance_a - trajectory_dominance_b))
+  trajectory_dominance <- coef(lm(prediction_dominance_a-prediction_dominance_b ~ start))[2]
+
+  return(tibble(valence_alignment = trajectory_valence,
+                arousal_alignment = trajectory_arousal,
+                dominance_alignment = trajectory_dominance))
 }
 
 
@@ -77,9 +77,9 @@ ztc_trajectory_scores <- ztc_smoothed_annotations %>%
   group_modify(~trajectory_per_subject(.))
 
 alignedness <- function(data) {
-  pair <- data %>% select(bundle) %>% distinct()
-  subject_a <- substr(pair[[1]][1], 1, 2)
-  subject_b <- substr(pair[[1]][1], 3, 4)
+  subjects <- data %>% select(subject) %>% distinct() %>% unlist()
+  subject_a <- subjects[1]
+  subject_b <- subjects[2]
   prediction_valence_a <- data %>% filter(subject == subject_a) %>% select(smoothed_valence) %>% unlist()
   prediction_valence_b <- data %>% filter(subject == subject_b) %>% select(smoothed_valence) %>% unlist()
   alignedness_valence <- diss.DTWARP(discard(prediction_valence_a, is.na), discard(prediction_valence_b, is.na))
