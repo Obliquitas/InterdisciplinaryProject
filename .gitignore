@@ -10,6 +10,8 @@
 *.rds
 *.txt
 *.tsv
+*.pkl
+*.csv
 
 # User-specific files
 .Ruserdata
