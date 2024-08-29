@@ -64,7 +64,7 @@ trajectory_per_subject <- function(data){
   prediction_dominance_a <- data %>% filter(subject == subject_a) %>% select(smoothed_dominance) %>% unlist()
   prediction_dominance_b <- data %>% filter(subject == subject_b) %>% select(smoothed_dominance) %>% unlist()
 
-  trajectory_dominance <- coef(lm(prediction_dominance_a-prediction_dominance_b ~ start))[2]
+  trajectory_dominance <- coef(lm(abs(prediction_dominance_a-prediction_dominance_b) ~ start))[2]
 
   return(tibble(valence_alignment = trajectory_valence,
                 arousal_alignment = trajectory_arousal,
