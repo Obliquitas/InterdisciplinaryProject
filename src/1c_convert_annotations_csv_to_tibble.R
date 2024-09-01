@@ -10,4 +10,4 @@ annotations <- read.csv("data/annotations.csv")
 annotations_tibble <- as_tibble(annotations)
 
 # Save the tibble
-saveRDS(annotations_tibble, file = "data/ztc_annotated_utterings.rds")
+saveRDS(annotations_tibble, file = "data/ztc_annotated_utterings_ser.rds")
