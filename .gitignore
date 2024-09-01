@@ -8,7 +8,7 @@
 
 # Data files too large to be included in the repository
 *.rds
-*.txt
+de_emo_norms.txt
 *.tsv
 *.pkl
 *.csv

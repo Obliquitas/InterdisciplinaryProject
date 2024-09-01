@@ -1,0 +1,24 @@
+[1] "annotations"
+Lasso Model Error Measures:
+Mean Squared Error (MSE): 16048704137 
+Mean Absolute Error (MAE): 95264.69 
+Root Mean Squared Error (RMSE): 126683.5 
+R-squared (R²): 0.3611397 
+
+Dummy Model Error Measures:
+Mean Squared Error (MSE): 25199358801 
+Mean Absolute Error (MAE): 122184 
+Root Mean Squared Error (RMSE): 158743.1 
+R-squared (R²): -0.003125887 
+[1] "ser"
+Lasso Model Error Measures:
+Mean Squared Error (MSE): 4.730883e+12 
+Mean Absolute Error (MAE): 1746407 
+Root Mean Squared Error (RMSE): 2175059 
+R-squared (R²): 0.2649539 
+
+Dummy Model Error Measures:
+Mean Squared Error (MSE): 6.455839e+12 
+Mean Absolute Error (MAE): 1952783 
+Root Mean Squared Error (RMSE): 2540834 
+R-squared (R²): -0.003055602 
